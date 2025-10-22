@@ -1,2 +1,2 @@
-# dispachere
+# dispacher
 Floss hamjamiyati registeri dashboardi
