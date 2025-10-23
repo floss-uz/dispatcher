@@ -6,23 +6,34 @@ import { createTheme } from "@mui/material"
  */
 
 export const muiTheme = createTheme({
-  colorSchemes: {
-    dark: true,
-    light: true,
+  cssVariables: {
+    colorSchemeSelector: "data-toolpad-color-scheme",
   },
-  palette: {
-    primary: {
-      light: "#757ce8",
-      main: "#3f50b5",
-      dark: "#002884",
-      contrastText: "#fff",
+  colorSchemes: {
+    light: {
+      palette: {
+        background: {
+          default: "#F9F9FE",
+          paper: "#EEEEF9",
+        },
+      },
+    },
+    dark: {
+      palette: {
+        background: {
+          default: "#2A4364",
+          paper: "#112E4D",
+        },
+      },
     },
   },
-  components: {
-    MuiButton: {
-      defaultProps: {
-        variant: "text",
-      },
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 600,
+      lg: 1200,
+      xl: 1536,
     },
   },
 })
