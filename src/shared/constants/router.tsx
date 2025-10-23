@@ -1,6 +1,6 @@
-import { createBrowserRouter } from "react-router";
-import { NotFoundPage } from "@/app/NotFoundPage.tsx";
-import { DashboardPage } from "@/app/DashboardPage.tsx";
+import { createBrowserRouter } from "react-router"
+import { NotFoundPage } from "@/app/NotFoundPage.tsx"
+import { DashboardPage } from "@/app/DashboardPage.tsx"
 
 export const router = createBrowserRouter([
   {
@@ -15,4 +15,4 @@ export const router = createBrowserRouter([
     path: "/salom",
     element: "hello karl",
   },
-]);
+])
