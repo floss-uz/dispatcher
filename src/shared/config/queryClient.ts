@@ -1,0 +1,4 @@
+/**
+ *
+ * @description global query client
+ */
