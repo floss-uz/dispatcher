@@ -4,6 +4,8 @@ import { ReactRouterAppProvider } from "@toolpad/core/react-router"
 import { Outlet } from "react-router"
 import { sidebarBranding, sidebarMenus } from "@/shared/constants"
 import { IconContext } from "react-icons"
+import { Session } from "@toolpad/core"
+import * as React from "react"
 
 const demoSession = {
   user: {
@@ -14,13 +16,25 @@ const demoSession = {
 }
 
 const App = () => {
+  const [session, setSession] = React.useState<Session | null>(demoSession)
+  const authentication = React.useMemo(() => {
+    return {
+      signIn: () => {
+        setSession(demoSession)
+      },
+      signOut: () => {
+        setSession(null)
+      },
+    }
+  }, [])
+
   return (
     <ThemeProvider theme={muiTheme} noSsr>
       <IconContext.Provider value={{ size: "20px" }}>
         <CssBaseline />
         <ReactRouterAppProvider
           session={demoSession}
-          authentication={(() => {}) as unknown}
+          authentication={authentication}
           theme={muiTheme}
           navigation={sidebarMenus}
           branding={sidebarBranding}
