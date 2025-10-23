@@ -1,17 +1,18 @@
-import {createBrowserRouter, Link} from "react-router";
-import {NotFoundPage} from "@/app/NotFoundPage.tsx";
+import { createBrowserRouter } from "react-router";
+import { NotFoundPage } from "@/app/NotFoundPage.tsx";
+import { DashboardPage } from "@/app/DashboardPage.tsx";
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <Link to={"/salom"}>salom</Link>
+    element: <DashboardPage />,
   },
   {
     path: "/*",
-    element: <NotFoundPage/>
+    element: <NotFoundPage />,
   },
   {
     path: "/salom",
-    element: "hello karl"
-  }
-])
+    element: "hello karl",
+  },
+]);
