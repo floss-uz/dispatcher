@@ -57,14 +57,18 @@ const StyledTextField = styled(TextField)<{
   transition: theme.transitions.create(["width", "opacity"]),
 }))
 
-export function Toolbar() {
+export interface ToolbarProps {
+  title?: string
+}
+
+export function Toolbar({ title }: ToolbarProps) {
   const [exportMenuOpen, setExportMenuOpen] = useState(false)
   const exportMenuTriggerRef = useRef<HTMLButtonElement>(null)
 
   return (
     <MuiToolbar>
       <Typography fontWeight="medium" sx={{ flex: 1, mx: 0.5 }}>
-        Jamiyatlar
+        {title}
       </Typography>
 
       <Tooltip title="Columns">

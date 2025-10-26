@@ -7,11 +7,10 @@ import { NoColumnsOverlay } from "@/shared/ui/my-table/NoColumnsOverlay.tsx"
 import { Pagination } from "@/shared/ui/my-table/Pagination.tsx"
 
 export interface MyTableProps extends DataGridProps {
-  rows: GridRowsProp
-  columns: GridColDef[]
+  title?: string
 }
 
-export const MyTable = ({ rows, columns, ...props }: MyTableProps) => {
+export const MyTable = ({ title, rows, columns, ...props }: MyTableProps) => {
   const { t } = useTranslation()
   return (
     <div style={{ height: "88vh", width: "100%" }}>
@@ -31,7 +30,7 @@ export const MyTable = ({ rows, columns, ...props }: MyTableProps) => {
           },
         }}
         slots={{
-          toolbar: Toolbar,
+          toolbar: () => Toolbar({ title }),
           pagination: Pagination,
           noResultsOverlay: NoResultsOverlay,
           noRowsOverlay: NoRowsOverlay,

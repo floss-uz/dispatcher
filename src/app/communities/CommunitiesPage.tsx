@@ -8,7 +8,11 @@ const rows: GridRowsProp = [
 ]
 
 const columns: GridColDef[] = [
-  { field: "name", headerName: "Product Name", width: 200 },
+  {
+    field: "name",
+    headerName: "Product Name",
+    width: 200,
+  },
   { field: "description", headerName: "Description", width: 300 },
 ]
 
@@ -16,6 +20,7 @@ export const CommunitiesPage = () => {
   return (
     <div>
       <MyTable
+        title={"Jamiyatlar"}
         checkboxSelection
         disableRowSelectionOnClick
         showToolbar

@@ -2,13 +2,13 @@ import { Outlet } from "react-router"
 import { DashboardLayout, ThemeSwitcher } from "@toolpad/core/DashboardLayout"
 import { Box, Button, Container, Divider, Stack } from "@mui/material"
 import { Account } from "@toolpad/core/Account"
+import Typography from "@mui/material/Typography"
 
 export default function Layout() {
   return (
     <DashboardLayout
       slots={{
         toolbarActions: ToolbarActions,
-        sidebarFooter: SidebarFooter,
       }}
     >
       <Container sx={{ my: 2 }}>
@@ -17,15 +17,6 @@ export default function Layout() {
         </Box>
       </Container>
     </DashboardLayout>
-  )
-}
-
-export const SidebarFooter = () => {
-  return (
-    <Box>
-      <Divider />
-      <Button fullWidth>Chiqish</Button>
-    </Box>
   )
 }
 
