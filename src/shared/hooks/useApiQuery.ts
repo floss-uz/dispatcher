@@ -6,9 +6,5 @@ export default function useApiQuery<
   TTransformedData,
   TQueryKey extends readonly unknown[],
 >(options: UseQueryOptions<TApiResponse, TError, TTransformedData, TQueryKey>) {
-  return useQuery<TApiResponse, TError, TTransformedData, TQueryKey>({
-    retry: 3,
-    retryDelay: 1000,
-    ...options,
-  })
+  return useQuery<TApiResponse, TError, TTransformedData, TQueryKey>(options)
 }
