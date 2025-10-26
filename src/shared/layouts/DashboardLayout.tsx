@@ -2,7 +2,6 @@ import { Outlet } from "react-router"
 import { DashboardLayout, ThemeSwitcher } from "@toolpad/core/DashboardLayout"
 import { Box, Button, Container, Divider, Stack } from "@mui/material"
 import { Account } from "@toolpad/core/Account"
-import Typography from "@mui/material/Typography"
 
 export default function Layout() {
   return (

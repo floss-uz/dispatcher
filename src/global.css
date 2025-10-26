@@ -30,7 +30,6 @@
     --breakpoint-lg: 75rem; /* 1200px */
     --breakpoint-xl: 96rem; /* 1536px */
     --breakpoint-2xl: 120rem; /* 1920px */
-
     /* Material UI theme colors */
     --color-primary: rgb(var(--mui-palette-primary-mainChannel));
     --color-primary-light: rgb(var(--mui-palette-primary-lightChannel));
@@ -255,28 +254,35 @@
         font: var(--mui-font-h1);
         letter-spacing: -0.01562em;
     }
+
     h2 {
         font: var(--mui-font-h2);
         letter-spacing: -0.00833em;
     }
+
     h3 {
         font: var(--mui-font-h3);
     }
+
     h4 {
         font: var(--mui-font-h4);
         letter-spacing: 0.00735em;
     }
+
     h5 {
         font: var(--mui-font-h5);
     }
+
     h6 {
         font: var(--mui-font-h6);
         letter-spacing: 0.0075em;
     }
+
     p {
         font: var(--mui-font-body1);
         letter-spacing: 0.00938em;
     }
+
     span {
         font: var(--mui-font-body2);
         letter-spacing: 0.01071em;
@@ -297,4 +303,22 @@
 @utility elevation-* {
     background-image: --value(--overlay-*);
     box-shadow: --value(--shadow-*);
+}
+
+
+/*hide scrollbar*/
+@layer utilities {
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+        scrollbar-gutter: unset;
+    }
+
+    .no-scrollbar {
+        -ms-overflow-style: none; /* IE, Edge */
+        scrollbar-width: none; /* Firefox */
+    }
+}
+
+* {
+    scrollbar-gutter: auto;
 }
