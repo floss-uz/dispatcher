@@ -1,3 +1,8 @@
 {
-  "name": "adam"
+  "general": {
+    "show": "Show",
+    "hide": "Hide",
+    "loading": "Loading...",
+    "print": "Print"
+  }
 }

@@ -145,3 +145,4 @@ vite.config.ts.timestamp-*
 /build
 /dist
 stats.html
+package-lock.json

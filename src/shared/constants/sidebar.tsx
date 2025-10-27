@@ -6,7 +6,7 @@ import {
   PAGE_MAIN,
   rmSlash,
 } from "@/shared/constants/pageRoutes.ts"
-import { TbBan, TbUsersGroup, TbUserShield } from "react-icons/tb"
+import { TbBan, TbHome, TbUsersGroup, TbUserShield } from "react-icons/tb"
 
 export const sidebarBranding: Branding = {
   title: "FLOSS Dispatcher",
@@ -18,6 +18,11 @@ export const sidebarMenus: Navigation = [
   {
     kind: "header",
     title: "Bo'limlar",
+  },
+  {
+    segment: rmSlash(PAGE_MAIN),
+    title: "Bosh sahifa",
+    icon: <TbHome />,
   },
   {
     segment: rmSlash(PAGE_COMMUNITIES),

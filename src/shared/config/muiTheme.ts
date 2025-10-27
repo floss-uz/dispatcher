@@ -2,7 +2,7 @@ import { createTheme } from "@mui/material"
 
 /**
  *
- * @description global mui theme config
+ * @description Global MUI theme configuration
  */
 
 export const muiTheme = createTheme({
@@ -21,8 +21,8 @@ export const muiTheme = createTheme({
     dark: {
       palette: {
         background: {
-          default: "#2A4364",
-          paper: "#112E4D",
+          default: "#0B192C",
+          paper: "#021526",
         },
       },
     },
@@ -31,9 +31,26 @@ export const muiTheme = createTheme({
     values: {
       xs: 0,
       sm: 600,
-      md: 600,
+      md: 900,
       lg: 1200,
       xl: 1536,
+    },
+  },
+
+  shape: {
+    borderRadius: 8,
+  },
+
+  components: {
+    MuiButton: {
+      defaultProps: {
+        disableElevation: true,
+      },
+      styleOverrides: {
+        root: ({ theme }) => ({
+          textTransform: "none",
+        }),
+      },
     },
   },
 })

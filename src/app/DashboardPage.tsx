@@ -17,7 +17,15 @@ export const DashboardPage = () => {
       <Button onClick={() => setMode(mode === "dark" ? "light" : "dark")}>Hello world</Button>
       <h1>{t("name")}</h1>
       <p>til: {i18n.language}</p>
-      <Button onClick={toggleLang}>change</Button>
+      <Button variant={"contained"} onClick={toggleLang}>
+        Change
+      </Button>
+      <Button variant={"outlined"} onClick={toggleLang}>
+        change
+      </Button>
+      <Button color={"error"} variant={"text"} onClick={toggleLang}>
+        change
+      </Button>
     </div>
   )
 }
