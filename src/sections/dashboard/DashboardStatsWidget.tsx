@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 import { Chart, ChartOptions } from "@/shared/ui/chart"
 import { fNumber, fPercent } from "@/shared/utils/formatNumber"
 import { Box, Card, CardProps, useTheme } from "@mui/material"
@@ -38,8 +36,8 @@ export const StatsWidget = ({ title, percent, total, chart, sx, ...other }: Prop
     colors: chartColors,
     stroke: { width: 2, curve: "smooth" },
     tooltip: {
-      y: { formatter: (value: number) => fNumber(value), title: { formatter: () => "" } },
-      x: { formatter: (val: string, opts: any) => chart.categories[opts.dataPointIndex] },
+      y: { formatter: (value) => fNumber(value), title: { formatter: () => "" } },
+      x: { formatter: (_, opts) => chart.categories[opts.dataPointIndex] },
     },
     xaxis: {
       categories: chart.categories,
