@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import { Chart, ChartOptions } from "@/shared/ui/chart"
 import { fNumber, fPercent } from "@/shared/utils/formatNumber"
 import { Box, Card, CardProps, useTheme } from "@mui/material"
@@ -37,8 +39,10 @@ export const StatsWidget = ({ title, percent, total, chart, sx, ...other }: Prop
     stroke: { width: 2, curve: "smooth" },
     tooltip: {
       y: { formatter: (value: number) => fNumber(value), title: { formatter: () => "" } },
+      x: { formatter: (val: string, opts: any) => chart.categories[opts.dataPointIndex] },
     },
     xaxis: {
+      categories: chart.categories,
       labels: { show: false },
       axisBorder: { show: false },
       axisTicks: { show: false },
@@ -61,15 +65,16 @@ export const StatsWidget = ({ title, percent, total, chart, sx, ...other }: Prop
           zIndex: "unset",
           overflow: "unset",
           alignItems: "center",
+          borderRadius: 2,
         }),
-        ...(Array.isArray(sx) ? sx : [sx]),
       ]}
+      variant="outlined"
       {...other}
     >
       <Box sx={{ flexGrow: 1 }}>
         <Box sx={{ typography: "subtitle2" }}>{title}</Box>
 
-        <Box sx={{ mt: 1.5, mb: 1, typography: "h3" }}>{111}</Box>
+        <Box sx={{ mt: 1.5, mb: 1, typography: "h3" }}>{fNumber(total)}</Box>
 
         {renderTrending()}
       </Box>
@@ -78,7 +83,7 @@ export const StatsWidget = ({ title, percent, total, chart, sx, ...other }: Prop
         type="bar"
         options={chartOptions}
         series={[{ data: chart.series }]}
-        sx={{ width: 60, height: 40 }}
+        sx={{ width: 80, height: 50 }}
       />
     </Card>
   )

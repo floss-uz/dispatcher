@@ -1,2 +1,2 @@
-export * from "./muiTheme"
+export * from "./theme/muiTheme"
 export * from "./i18n"
