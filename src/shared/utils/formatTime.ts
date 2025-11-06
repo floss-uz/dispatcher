@@ -28,6 +28,16 @@ import relativeTime from "dayjs/plugin/relativeTime"
  *
  */
 
+export type DurationProps = {
+  years?: number
+  months?: number
+  days?: number
+  hours?: number
+  minutes?: number
+  seconds?: number
+  milliseconds?: number
+}
+
 dayjs.extend(duration)
 dayjs.extend(relativeTime)
 
@@ -35,7 +45,7 @@ dayjs.extend(relativeTime)
 
 export type DatePickerFormat = Dayjs | Date | string | number | null | undefined
 
-export const formatPatterns = {
+export const formatTimePatterns = {
   dateTime: "DD MMM YYYY h:mm a", // 17 Apr 2022 12:00 am
   date: "DD MMM YYYY", // 17 Apr 2022
   time: "h:mm a", // 12:00 am
@@ -54,237 +64,229 @@ const isValidDate = (date: DatePickerFormat) =>
 
 // ----------------------------------------------------------------------
 
-export function today(template?: string): string {
-  return dayjs(new Date()).startOf("day").format(template)
-}
-
-// ----------------------------------------------------------------------
-
 /**
- * @output 17 Apr 2022 12:00 am
+ * Utility functions for formatting times
  */
-export function fDateTime(date: DatePickerFormat, template?: string): string {
-  if (!isValidDate(date)) {
-    return "Invalid date"
-  }
+export const FormatTime = {
+  /**
+   * Returns today's date
+   * @returns {string}
+   */
+  today(template?: string): string {
+    return dayjs(new Date()).startOf("day").format(template)
+  },
 
-  return dayjs(date).format(template ?? formatPatterns.dateTime)
-}
+  /**
+   * Formats a date into human-readable date-time string
+   * @output 17 Apr 2022 12:00 am
+   */
+  dateTime(date: DatePickerFormat, template?: string): string {
+    if (!isValidDate(date)) {
+      return "Invalid date"
+    }
 
-// ----------------------------------------------------------------------
+    return dayjs(date).format(template ?? formatTimePatterns.dateTime)
+  },
 
-/**
- * @output 17 Apr 2022
- */
-export function fDate(date: DatePickerFormat, template?: string): string {
-  if (!isValidDate(date)) {
-    return "Invalid date"
-  }
+  /**
+   * Formats a date into a short date string
+   * @output 17 Apr 2022
+   */
+  date(date: DatePickerFormat, template?: string): string {
+    if (!isValidDate(date)) {
+      return "Invalid date"
+    }
 
-  return dayjs(date).format(template ?? formatPatterns.date)
-}
+    return dayjs(date).format(template ?? formatTimePatterns.date)
+  },
 
-// ----------------------------------------------------------------------
+  /**
+   * Formats a date into a time string
+   * @output 12:00 am
+   */
+  time(date: DatePickerFormat, template?: string): string {
+    if (!isValidDate(date)) {
+      return "Invalid date"
+    }
 
-/**
- * @output 12:00 am
- */
-export function fTime(date: DatePickerFormat, template?: string): string {
-  if (!isValidDate(date)) {
-    return "Invalid date"
-  }
+    return dayjs(date).format(template ?? formatTimePatterns.time)
+  },
 
-  return dayjs(date).format(template ?? formatPatterns.time)
-}
+  /**
+   * Returns a UNIX timestamp (milliseconds) from a date
+   * @output 1713250100
+   */
+  timestamp(date: DatePickerFormat): number | "Invalid date" {
+    if (!isValidDate(date)) {
+      return "Invalid date"
+    }
 
-// ----------------------------------------------------------------------
+    return dayjs(date).valueOf()
+  },
 
-/**
- * @output 1713250100
- */
-export function fTimestamp(date: DatePickerFormat): number | "Invalid date" {
-  if (!isValidDate(date)) {
-    return "Invalid date"
-  }
+  /**
+   * Returns a human-readable relative time string
+   * @output a few seconds, 2 years
+   */
+  toNow(date: DatePickerFormat): string {
+    if (!isValidDate(date)) {
+      return "Invalid date"
+    }
 
-  return dayjs(date).valueOf()
-}
+    return dayjs(date).toNow(true)
+  },
 
-// ----------------------------------------------------------------------
+  /**
+   * Checks whether a date is between two other dates (inclusive)
+   * @output boolean
+   */
+  isBetween(
+    inputDate: DatePickerFormat,
+    startDate: DatePickerFormat,
+    endDate: DatePickerFormat
+  ): boolean {
+    if (!isValidDate(inputDate) || !isValidDate(startDate) || !isValidDate(endDate)) {
+      return false
+    }
 
-/**
- * @output a few seconds, 2 years
- */
-export function fToNow(date: DatePickerFormat): string {
-  if (!isValidDate(date)) {
-    return "Invalid date"
-  }
+    const formattedInputDate = this.timestamp(inputDate)
+    const formattedStartDate = this.timestamp(startDate)
+    const formattedEndDate = this.timestamp(endDate)
 
-  return dayjs(date).toNow(true)
-}
+    if (
+      formattedInputDate === "Invalid date" ||
+      formattedStartDate === "Invalid date" ||
+      formattedEndDate === "Invalid date"
+    ) {
+      return false
+    }
 
-// ----------------------------------------------------------------------
+    return formattedInputDate >= formattedStartDate && formattedInputDate <= formattedEndDate
+  },
 
-/**
- * @output boolean
- */
-export function fIsBetween(
-  inputDate: DatePickerFormat,
-  startDate: DatePickerFormat,
-  endDate: DatePickerFormat
-): boolean {
-  if (!isValidDate(inputDate) || !isValidDate(startDate) || !isValidDate(endDate)) {
-    return false
-  }
+  /**
+   * Checks if one date is after another
+   * @output boolean
+   */
+  isAfter(startDate: DatePickerFormat, endDate: DatePickerFormat): boolean {
+    if (!isValidDate(startDate) || !isValidDate(endDate)) {
+      return false
+    }
 
-  const formattedInputDate = fTimestamp(inputDate)
-  const formattedStartDate = fTimestamp(startDate)
-  const formattedEndDate = fTimestamp(endDate)
+    return dayjs(startDate).isAfter(endDate)
+  },
 
-  if (
-    formattedInputDate === "Invalid date" ||
-    formattedStartDate === "Invalid date" ||
-    formattedEndDate === "Invalid date"
-  ) {
-    return false
-  }
+  /**
+   * Checks if two dates are the same based on the given unit (default: "year")
+   * @output boolean
+   */
+  isSame(
+    startDate: DatePickerFormat,
+    endDate: DatePickerFormat,
+    unitToCompare?: OpUnitType
+  ): boolean {
+    if (!isValidDate(startDate) || !isValidDate(endDate)) {
+      return false
+    }
 
-  return formattedInputDate >= formattedStartDate && formattedInputDate <= formattedEndDate
-}
+    return dayjs(startDate).isSame(endDate, unitToCompare ?? "year")
+  },
 
-// ----------------------------------------------------------------------
+  /**
+   * Creates a human-readable range label between two dates
+   * @output
+   * Same day: 26 Apr 2024
+   * Same month: 25 - 26 Apr 2024
+   * Same month: 25 - 26 Apr 2024
+   * Same year: 25 Apr - 26 May 2024
+   */
+  dateRangeShortLabel(
+    startDate: DatePickerFormat,
+    endDate: DatePickerFormat,
+    initial?: boolean
+  ): string {
+    if (!isValidDate(startDate) || !isValidDate(endDate) || this.isAfter(startDate, endDate)) {
+      return "Invalid date"
+    }
 
-/**
- * @output boolean
- */
-export function fIsAfter(startDate: DatePickerFormat, endDate: DatePickerFormat): boolean {
-  if (!isValidDate(startDate) || !isValidDate(endDate)) {
-    return false
-  }
+    let label = `${this.date(startDate)} - ${this.date(endDate)}`
 
-  return dayjs(startDate).isAfter(endDate)
-}
+    if (initial) {
+      return label
+    }
 
-// ----------------------------------------------------------------------
+    const isSameYear = this.isSame(startDate, endDate, "year")
+    const isSameMonth = this.isSame(startDate, endDate, "month")
+    const isSameDay = this.isSame(startDate, endDate, "day")
 
-/**
- * @output boolean
- */
-export function fIsSame(
-  startDate: DatePickerFormat,
-  endDate: DatePickerFormat,
-  unitToCompare?: OpUnitType
-): boolean {
-  if (!isValidDate(startDate) || !isValidDate(endDate)) {
-    return false
-  }
+    if (isSameYear && !isSameMonth) {
+      label = `${this.date(startDate, "DD MMM")} - ${this.date(endDate)}`
+    } else if (isSameYear && isSameMonth && !isSameDay) {
+      label = `${this.date(startDate, "DD")} - ${this.date(endDate)}`
+    } else if (isSameYear && isSameMonth && isSameDay) {
+      label = `${this.date(endDate)}`
+    }
 
-  return dayjs(startDate).isSame(endDate, unitToCompare ?? "year")
-}
-
-/**
- * @output
- * Same day: 26 Apr 2024
- * Same month: 25 - 26 Apr 2024
- * Same month: 25 - 26 Apr 2024
- * Same year: 25 Apr - 26 May 2024
- */
-export function fDateRangeShortLabel(
-  startDate: DatePickerFormat,
-  endDate: DatePickerFormat,
-  initial?: boolean
-): string {
-  if (!isValidDate(startDate) || !isValidDate(endDate) || fIsAfter(startDate, endDate)) {
-    return "Invalid date"
-  }
-
-  let label = `${fDate(startDate)} - ${fDate(endDate)}`
-
-  if (initial) {
     return label
-  }
+  },
 
-  const isSameYear = fIsSame(startDate, endDate, "year")
-  const isSameMonth = fIsSame(startDate, endDate, "month")
-  const isSameDay = fIsSame(startDate, endDate, "day")
+  /**
+   * Adds duration to the current date and returns ISO string.
+   * @output 2024-05-28T05:55:31+00:00
+   */
+  add({
+    years = 0,
+    months = 0,
+    days = 0,
+    hours = 0,
+    minutes = 0,
+    seconds = 0,
+    milliseconds = 0,
+  }: DurationProps) {
+    const result = dayjs()
+      .add(
+        dayjs.duration({
+          years,
+          months,
+          days,
+          hours,
+          minutes,
+          seconds,
+          milliseconds,
+        })
+      )
+      .format()
 
-  if (isSameYear && !isSameMonth) {
-    label = `${fDate(startDate, "DD MMM")} - ${fDate(endDate)}`
-  } else if (isSameYear && isSameMonth && !isSameDay) {
-    label = `${fDate(startDate, "DD")} - ${fDate(endDate)}`
-  } else if (isSameYear && isSameMonth && isSameDay) {
-    label = `${fDate(endDate)}`
-  }
+    return result
+  },
 
-  return label
-}
+  /**
+   * Subtracts duration from the current date and returns ISO string
+   * @output 2024-05-28T05:55:31+00:00
+   */
+  sub({
+    years = 0,
+    months = 0,
+    days = 0,
+    hours = 0,
+    minutes = 0,
+    seconds = 0,
+    milliseconds = 0,
+  }: DurationProps) {
+    const result = dayjs()
+      .subtract(
+        dayjs.duration({
+          years,
+          months,
+          days,
+          hours,
+          minutes,
+          seconds,
+          milliseconds,
+        })
+      )
+      .format()
 
-// ----------------------------------------------------------------------
-
-/**
- * @output 2024-05-28T05:55:31+00:00
- */
-export type DurationProps = {
-  years?: number
-  months?: number
-  days?: number
-  hours?: number
-  minutes?: number
-  seconds?: number
-  milliseconds?: number
-}
-
-export function fAdd({
-  years = 0,
-  months = 0,
-  days = 0,
-  hours = 0,
-  minutes = 0,
-  seconds = 0,
-  milliseconds = 0,
-}: DurationProps) {
-  const result = dayjs()
-    .add(
-      dayjs.duration({
-        years,
-        months,
-        days,
-        hours,
-        minutes,
-        seconds,
-        milliseconds,
-      })
-    )
-    .format()
-
-  return result
-}
-
-/**
- * @output 2024-05-28T05:55:31+00:00
- */
-export function fSub({
-  years = 0,
-  months = 0,
-  days = 0,
-  hours = 0,
-  minutes = 0,
-  seconds = 0,
-  milliseconds = 0,
-}: DurationProps) {
-  const result = dayjs()
-    .subtract(
-      dayjs.duration({
-        years,
-        months,
-        days,
-        hours,
-        minutes,
-        seconds,
-        milliseconds,
-      })
-    )
-    .format()
-
-  return result
+    return result
+  },
 }

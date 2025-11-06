@@ -6,6 +6,7 @@ import { sidebarBranding, sidebarMenus } from "@/shared/constants"
 import { IconContext } from "react-icons"
 import { Session } from "@toolpad/core"
 import * as React from "react"
+import Providers from "@/shared/providers/Providers.tsx"
 
 const demoSession = {
   user: {
@@ -29,20 +30,22 @@ const App = () => {
   }, [])
 
   return (
-    <ThemeProvider theme={muiTheme} noSsr>
-      <IconContext.Provider value={{ size: "20px" }}>
-        <CssBaseline />
-        <ReactRouterAppProvider
-          session={demoSession}
-          authentication={authentication}
-          theme={muiTheme}
-          navigation={sidebarMenus}
-          branding={sidebarBranding}
-        >
-          <Outlet />
-        </ReactRouterAppProvider>
-      </IconContext.Provider>
-    </ThemeProvider>
+    <Providers>
+      <ThemeProvider theme={muiTheme} noSsr>
+        <IconContext.Provider value={{ size: "20px" }}>
+          <CssBaseline />
+          <ReactRouterAppProvider
+            session={demoSession}
+            authentication={authentication}
+            theme={muiTheme}
+            navigation={sidebarMenus}
+            branding={sidebarBranding}
+          >
+            <Outlet />
+          </ReactRouterAppProvider>
+        </IconContext.Provider>
+      </ThemeProvider>
+    </Providers>
   )
 }
 export default App

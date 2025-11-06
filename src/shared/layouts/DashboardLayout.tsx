@@ -8,7 +8,6 @@ export default function Layout() {
     <DashboardLayout
       slots={{
         toolbarActions: ToolbarActions,
-        sidebarFooter: SidebarFooter,
       }}
     >
       <Container sx={{ my: 2 }}>
@@ -17,15 +16,6 @@ export default function Layout() {
         </Box>
       </Container>
     </DashboardLayout>
-  )
-}
-
-export const SidebarFooter = () => {
-  return (
-    <Box>
-      <Divider />
-      <Button fullWidth>Chiqish</Button>
-    </Box>
   )
 }
 
