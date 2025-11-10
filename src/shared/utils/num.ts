@@ -1,7 +1,5 @@
 export type InputNumberValue = string | number | null | undefined
 
-const locale = "uz-UZ"
-
 function validateNumber(inputValue: InputNumberValue): number | null {
   if (inputValue == null || Number.isNaN(inputValue)) return null
   return Number(inputValue)
@@ -10,21 +8,21 @@ function validateNumber(inputValue: InputNumberValue): number | null {
 /**
  * Utility functions for formatting numbers
  */
-export const FormatNumber = {
+export const Num = {
   /**
    * Make number with spaces
    * @example
    * ```ts
-   * FormatNumber.number(12345.678) // "12 345,68"
+   * Num.formatNumber(12345.678) // "12 345,68"
    * ```
    * @param {InputNumberValue} inputValue - The number or string to format.
    * @returns {string} A formatted number string, or an empty string if invalid.
    */
-  number(inputValue: InputNumberValue): string {
+  formatNumber(inputValue: InputNumberValue): string | null {
     const number = validateNumber(inputValue)
-    if (number === null) return ""
+    if (number === null) return null
 
-    const fm = new Intl.NumberFormat(locale, {
+    const fm = new Intl.NumberFormat("uz-UZ", {
       minimumFractionDigits: 0,
       maximumFractionDigits: 2,
     }).format(number)
@@ -36,16 +34,16 @@ export const FormatNumber = {
    * Make number with percent
    * * @example
    * ```ts
-   * FormatNumber.percent(25)       // "25%"
+   * Num.formatPercent(25)       // "25%"
    * ```
    * @param {InputNumberValue} inputValue - The number or string to format.
    * @returns {string} A formatted number string, or an empty string if invalid.
    */
-  percent(inputValue: InputNumberValue): string {
+  formatPercent(inputValue: InputNumberValue): string | null {
     const number = validateNumber(inputValue)
-    if (number === null) return ""
+    if (number === null) return null
 
-    const fm = new Intl.NumberFormat(locale, {
+    const fm = new Intl.NumberFormat("uz-UZ", {
       style: "percent",
       minimumFractionDigits: 0,
       maximumFractionDigits: 1,
@@ -58,16 +56,16 @@ export const FormatNumber = {
    * Make shorten number
    * @example
    * ```ts
-   * FormatNumber.shorten(1500000)  // "1,5 mln"
+   * Num.formatShorten(1500000)  // "1,5 mln"
    * ```
    * @param {InputNumberValue} inputValue - The number or string to format.
    * @returns {string} A formatted number string, or an empty string if invalid.
    */
-  shorten(inputValue: InputNumberValue): string {
+  formatShorten(inputValue: InputNumberValue): string | null {
     const number = validateNumber(inputValue)
-    if (number === null) return ""
+    if (number === null) return null
 
-    const fm = new Intl.NumberFormat(locale, {
+    const fm = new Intl.NumberFormat("uz-UZ", {
       notation: "compact",
       maximumFractionDigits: 2,
     }).format(number)
@@ -79,12 +77,12 @@ export const FormatNumber = {
    * Convert bytes human readable data
    * @example
    * ```ts
-   * FormatNumber.data(2048)        // "2 Kb"
+   * Num.data(2048)        // "2 Kb"
    * ```
    * @param {InputNumberValue} inputValue - The number or string to format.
    * @returns {string} A formatted number string, or an empty string if invalid.
    */
-  data(inputValue: InputNumberValue): string {
+  formatData(inputValue: InputNumberValue): string {
     const number = validateNumber(inputValue)
     if (number === null || number === 0) return "0 bytes"
 

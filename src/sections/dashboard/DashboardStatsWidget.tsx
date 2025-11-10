@@ -1,5 +1,5 @@
 import { Chart, ChartOptions } from "@/shared/ui"
-import { FormatNumber } from "@/shared/utils/formatNumber"
+import { Num } from "@/shared/utils/num"
 import { Box, Card, CardProps, useTheme } from "@mui/material"
 
 type Props = CardProps & {
@@ -22,7 +22,7 @@ export const StatsWidget = ({ title, percent, total, chart, sx, ...other }: Prop
     <Box sx={{ gap: 0.5, display: "flex", alignItems: "center" }}>
       <Box component="span" sx={{ typography: "subtitle2" }}>
         {percent > 0 && "+"}
-        {FormatNumber.percent(percent)}
+        {Num.formatPercent(percent)}
       </Box>
 
       <Box component="span" sx={{ typography: "body2", color: "text.secondary" }}>
@@ -36,7 +36,7 @@ export const StatsWidget = ({ title, percent, total, chart, sx, ...other }: Prop
     colors: chartColors,
     stroke: { width: 2, curve: "smooth" },
     tooltip: {
-      y: { formatter: (value) => FormatNumber.number(value), title: { formatter: () => "" } },
+      y: { formatter: (value) => Num.formatNumber(value) || "-", title: { formatter: () => "" } },
       x: { formatter: (_, opts) => chart.categories[opts.dataPointIndex] },
     },
     xaxis: {
@@ -72,7 +72,7 @@ export const StatsWidget = ({ title, percent, total, chart, sx, ...other }: Prop
       <Box sx={{ flexGrow: 1 }}>
         <Box sx={{ typography: "subtitle2" }}>{title}</Box>
 
-        <Box sx={{ mt: 1.5, mb: 1, typography: "h3" }}>{FormatNumber.number(total)}</Box>
+        <Box sx={{ mt: 1.5, mb: 1, typography: "h3" }}>{Num.formatNumber(total)}</Box>
 
         {renderTrending()}
       </Box>

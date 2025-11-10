@@ -67,7 +67,7 @@ const isValidDate = (date: DatePickerFormat) =>
 /**
  * Utility functions for formatting times
  */
-export const FormatTime = {
+export const Time = {
   /**
    * Returns today's date
    * @returns {string}
@@ -80,10 +80,8 @@ export const FormatTime = {
    * Formats a date into human-readable date-time string
    * @output 17 Apr 2022 12:00 am
    */
-  dateTime(date: DatePickerFormat, template?: string): string {
-    if (!isValidDate(date)) {
-      return "Invalid date"
-    }
+  dateTime(date: DatePickerFormat, template?: string): string | null {
+    if (!isValidDate(date)) return null
 
     return dayjs(date).format(template ?? formatTimePatterns.dateTime)
   },
@@ -92,10 +90,8 @@ export const FormatTime = {
    * Formats a date into a short date string
    * @output 17 Apr 2022
    */
-  date(date: DatePickerFormat, template?: string): string {
-    if (!isValidDate(date)) {
-      return "Invalid date"
-    }
+  date(date: DatePickerFormat, template?: string): string | null {
+    if (!isValidDate(date)) return null
 
     return dayjs(date).format(template ?? formatTimePatterns.date)
   },
@@ -104,10 +100,8 @@ export const FormatTime = {
    * Formats a date into a time string
    * @output 12:00 am
    */
-  time(date: DatePickerFormat, template?: string): string {
-    if (!isValidDate(date)) {
-      return "Invalid date"
-    }
+  time(date: DatePickerFormat, template?: string): string | null {
+    if (!isValidDate(date)) return null
 
     return dayjs(date).format(template ?? formatTimePatterns.time)
   },
@@ -116,10 +110,8 @@ export const FormatTime = {
    * Returns a UNIX timestamp (milliseconds) from a date
    * @output 1713250100
    */
-  timestamp(date: DatePickerFormat): number | "Invalid date" {
-    if (!isValidDate(date)) {
-      return "Invalid date"
-    }
+  timestamp(date: DatePickerFormat): number | null {
+    if (!isValidDate(date)) return null
 
     return dayjs(date).valueOf()
   },
@@ -128,10 +120,8 @@ export const FormatTime = {
    * Returns a human-readable relative time string
    * @output a few seconds, 2 years
    */
-  toNow(date: DatePickerFormat): string {
-    if (!isValidDate(date)) {
-      return "Invalid date"
-    }
+  toNow(date: DatePickerFormat): string | null {
+    if (!isValidDate(date)) return null
 
     return dayjs(date).toNow(true)
   },
@@ -145,21 +135,13 @@ export const FormatTime = {
     startDate: DatePickerFormat,
     endDate: DatePickerFormat
   ): boolean {
-    if (!isValidDate(inputDate) || !isValidDate(startDate) || !isValidDate(endDate)) {
-      return false
-    }
+    if (!isValidDate(inputDate) || !isValidDate(startDate) || !isValidDate(endDate)) return false
 
     const formattedInputDate = this.timestamp(inputDate)
     const formattedStartDate = this.timestamp(startDate)
     const formattedEndDate = this.timestamp(endDate)
 
-    if (
-      formattedInputDate === "Invalid date" ||
-      formattedStartDate === "Invalid date" ||
-      formattedEndDate === "Invalid date"
-    ) {
-      return false
-    }
+    if (!formattedInputDate || !formattedStartDate || !formattedEndDate) return false
 
     return formattedInputDate >= formattedStartDate && formattedInputDate <= formattedEndDate
   },
@@ -169,9 +151,7 @@ export const FormatTime = {
    * @output boolean
    */
   isAfter(startDate: DatePickerFormat, endDate: DatePickerFormat): boolean {
-    if (!isValidDate(startDate) || !isValidDate(endDate)) {
-      return false
-    }
+    if (!isValidDate(startDate) || !isValidDate(endDate)) return false
 
     return dayjs(startDate).isAfter(endDate)
   },
@@ -185,9 +165,7 @@ export const FormatTime = {
     endDate: DatePickerFormat,
     unitToCompare?: OpUnitType
   ): boolean {
-    if (!isValidDate(startDate) || !isValidDate(endDate)) {
-      return false
-    }
+    if (!isValidDate(startDate) || !isValidDate(endDate)) return false
 
     return dayjs(startDate).isSame(endDate, unitToCompare ?? "year")
   },
@@ -204,10 +182,9 @@ export const FormatTime = {
     startDate: DatePickerFormat,
     endDate: DatePickerFormat,
     initial?: boolean
-  ): string {
-    if (!isValidDate(startDate) || !isValidDate(endDate) || this.isAfter(startDate, endDate)) {
-      return "Invalid date"
-    }
+  ): string | null {
+    if (!isValidDate(startDate) || !isValidDate(endDate) || this.isAfter(startDate, endDate))
+      return null
 
     let label = `${this.date(startDate)} - ${this.date(endDate)}`
 
