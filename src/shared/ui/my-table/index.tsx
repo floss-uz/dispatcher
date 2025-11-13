@@ -1,4 +1,4 @@
-import { DataGrid, type GridRowsProp, type GridColDef, type DataGridProps } from "@mui/x-data-grid"
+import { DataGrid, type DataGridProps } from "@mui/x-data-grid"
 import { useTranslation } from "react-i18next"
 import { Toolbar } from "@/shared/ui/my-table/Toolbar.tsx"
 import { NoResultsOverlay } from "@/shared/ui/my-table/NoResultsOverlay.tsx"
