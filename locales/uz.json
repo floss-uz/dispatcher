@@ -4,5 +4,14 @@
     "hide": "Yashirish",
     "loading": "Yuklanmoqda...",
     "print": "Chop etish"
+  },
+  "drawer": {
+    "save": "Saqlash",
+    "cancel": "Bekor qilish",
+    "close": "Yopish",
+    "discardTitle": "Saqlamasdan yopilsinmi?",
+    "discardText": "Saqlanmagan o'zgarishlar bor. Hozir yopsangiz, ular yo'qoladi.",
+    "keepEditing": "Tahrirlashda davom etish",
+    "discard": "Saqlamasdan yopish"
   }
 }
