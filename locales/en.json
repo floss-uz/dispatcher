@@ -4,5 +4,14 @@
     "hide": "Hide",
     "loading": "Loading...",
     "print": "Print"
+  },
+  "drawer": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "close": "Close",
+    "discardTitle": "Discard changes?",
+    "discardText": "You have unsaved changes. If you close now, they will be lost.",
+    "keepEditing": "Keep editing",
+    "discard": "Discard"
   }
 }
